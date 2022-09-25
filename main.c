@@ -4,12 +4,30 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <stdbool.h>
+#include "splitter.c"
 
 
 bool state = true;
 char cwd[512];
 
-void execute_command(char input[]) {
+int execute_command(char **input) {
+
+    pid_t pid = fork();
+
+    // If fork failure
+    if(pid < 0) {
+        printf("Fork failure");
+        exit(1);
+    }
+
+
+    if (pid == 0) {
+        execvp(input[0], input);
+    }
+
+    waitpid(pid, NULL, 0);
+    return 0;
+
 
     //printf("%s", input);
     /*if(!strcmp(input, "ls")) {
@@ -31,40 +49,37 @@ void execute_command(char input[]) {
 
     //test
 
-    if(!strcmp(input, input)) {
+    /*if(!strcmp(input, input)) {
         execlp(input, input, NULL);
     } else {
         printf("command not found: %s\n", input);
-    }
+    }*/
 
 }
 
 int main() {
-    int pid;
+    //int pid;
     while(state) {
+
+        // Take input from user
         char input[100];
         printf("> ");
-        //scanf("%s", input);
-        scanf(" %[^\t\n]s",&input);
+        scanf(" %[^\t\n]s",&input); // Allows for spaces in input
+
+        // Tokenize
         input[strcspn(input, "\n")] = 0;
-        //char *string = tokenization(input);
+        char **string = tokenization(input);
 
-        pid = fork();
 
-        if(pid < 0) {
-            printf("Fork failure");
-            exit(1);
+        if(!strcmp(string[0], "ls") | !strcmp(string[0], "pwd") | !strcmp(string[0], "ping")) {
+            execute_command(string);
+        } else if(strcmp(string[0], "exit") == 0) {
+            exit(0);
         }
 
-        // Kill parent process and all child processes
-        if(!strcmp(input, "exit")) {
-            kill(-1*pid, SIGKILL);
-        }
+        //pid = fork();
 
-        if (pid == 0) {
-            execute_command(input);
-        }
 
-        waitpid(pid, NULL, 0);
     }
 }
+
