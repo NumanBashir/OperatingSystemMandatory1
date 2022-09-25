@@ -23,7 +23,7 @@ int execute_command(char **input) {
 
     if (pid == 0) {
         execvp(input[0], input);
-    }
+    } else if(strcmp(input[0],"exit") == 0) {
 
     waitpid(pid, NULL, 0);
     return 0;
@@ -76,6 +76,8 @@ int main() {
         } else if(strcmp(string[0], "exit") == 0) {
             exit(0);
         }
+
+    }
 
         //pid = fork();
 
