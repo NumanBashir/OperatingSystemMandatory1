@@ -29,6 +29,8 @@ void execute_command(char input[]) {
         printf("command not found: %s\n", input);
     }*/
 
+    //
+
     if(!strcmp(input, input)) {
         execlp(input, input, NULL);
     } else {
