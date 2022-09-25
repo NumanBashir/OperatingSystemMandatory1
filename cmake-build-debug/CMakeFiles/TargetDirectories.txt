@@ -1,0 +1,3 @@
+/Users/numanbashir/CLionProjects/mandatory1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/numanbashir/CLionProjects/mandatory1/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/numanbashir/CLionProjects/mandatory1/cmake-build-debug/CMakeFiles/mandatory1.dir
