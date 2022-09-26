@@ -69,7 +69,7 @@ int execute_command(char **arr1, char **arr2) {
 
 
 int main() {
-    //int pid;
+    printf("you can use the following commands in this shell: ls, pwd, ping, cd, help and exit\n");
     while(state) {
 
         // Take input from user
@@ -93,15 +93,15 @@ int main() {
         // Commands to be executed
         if(!strcmp(arr1[0], "ls") | !strcmp(arr1[0], "pwd") | !strcmp(arr1[0], "ping")) {
             execute_command(arr1, arr2);
+        } else if(!strcmp(arr1[0], "help")) {
+            printf("you can use the following commands in this shell: ls, pwd, ping, cd, help and exit\n");
         } else if(strcmp(arr1[0], "exit") == 0) {
             exit(0);
+        } else if(!strcmp(arr1[0], "cd")) {
+            chdir(arr1[1]); // System call chdir for cd
+        } else {
+            printf("unknown command: %s\n", arr1[0]);
         }
-
-        // System call chhir for cd
-        if(!strcmp(arr1[0], "cd")) {
-            chdir(arr1[1]);
-        }
-
 
 
     }
