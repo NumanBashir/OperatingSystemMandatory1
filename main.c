@@ -11,7 +11,11 @@ bool state = true;
 
 int execute_command(char **arr1, char **arr2) {
 
+    // Create pipe between two processes
+
     int pd[2];
+
+    // Check pipe error
     if(arr2 != NULL) {
         int myPipe = pipe(pd);
         if(myPipe == -1) {
@@ -60,7 +64,6 @@ int execute_command(char **arr1, char **arr2) {
         close(pd[1]);
         waitpid(pid2, NULL, 0);
     }
-
 
     waitpid(pid, NULL, 0);
     return 0;
