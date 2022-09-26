@@ -15,7 +15,7 @@ int execute_command(char **arr1, char **arr2) {
     if(arr2 != NULL) {
         int myPipe = pipe(pd);
         if(myPipe == -1) {
-            //TODO - Error
+            printf("Pipe error");
         }
     }
 
@@ -32,9 +32,10 @@ int execute_command(char **arr1, char **arr2) {
     if (pid == 0) {
         if(arr2 != NULL) {
             close(pd[0]);
-            dup2(pd[1], STDOUT_FILENO);
+            dup2(pd[1], STDOUT_FILENO); // Output of process 1
             close(pd[1]);
         }
+        // System call
         execvp(arr1[0], arr1);
     }
 
@@ -48,7 +49,7 @@ int execute_command(char **arr1, char **arr2) {
 
         if (pid2 == 0) {
             close(pd[1]);
-            dup2(pd[0], STDIN_FILENO);
+            dup2(pd[0], STDIN_FILENO); // Input of process 1
             close(pd[0]);
             execvp(arr2[0], arr2);
         }
@@ -65,7 +66,8 @@ int execute_command(char **arr1, char **arr2) {
     return 0;
 
 }
-// ls | grep Testing
+
+
 int main() {
     //int pid;
     while(state) {
@@ -80,6 +82,7 @@ int main() {
         char *input1 = strtok(input, "|");
         char *input2 = strtok(NULL, "|");
 
+        // Tokenize input from user to take each keyword as different commands --> arr1[0] = cd --> arr1[1] = SOME DIRECTORY
         char **arr1 = tokenization(input1);
         char **arr2 = NULL;
         if(input2 != NULL) {
@@ -87,20 +90,17 @@ int main() {
         }
 
 
+        // Commands to be executed
         if(!strcmp(arr1[0], "ls") | !strcmp(arr1[0], "pwd") | !strcmp(arr1[0], "ping")) {
             execute_command(arr1, arr2);
         } else if(strcmp(arr1[0], "exit") == 0) {
             exit(0);
         }
 
+        // System call chhir for cd
         if(!strcmp(arr1[0], "cd")) {
             chdir(arr1[1]);
         }
-
-        //pid = fork();
-
-
-
 
 
 
