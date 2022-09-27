@@ -3,4 +3,4 @@ project(mandatory1 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(mandatory1 main.c)
+add_executable(mandatory1 myshell.c)
