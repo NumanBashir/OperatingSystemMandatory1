@@ -13,7 +13,7 @@ int execute_command(char **arr1, char **arr2) {
 
     // Create pipe between two processes
 
-    int pd[2];
+    int pd[2]; // 0 --> read, 1 --> write
 
     // Check pipe error
     if(arr2 != NULL) {
